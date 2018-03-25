@@ -10,8 +10,10 @@ from symbols.array import Array
 
 
 class Lexer:
+    line = 1
+
     def __init__(self):
-        self.line = 1
+
         self.peek = ''
         self.words = {
             'true': Word._true(),
@@ -43,7 +45,7 @@ class Lexer:
             if self.peek == '' or self.peek == '\t':
                 continue
             elif self.peek == '\n':
-                self.line += 1
+                Lexer.line += 1
             else:
                 break
 
