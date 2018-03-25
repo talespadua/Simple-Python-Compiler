@@ -1,28 +1,10 @@
 import sys
-
-
-class Token:
-    def __init__(self, tag):
-        self.tag = tag
-
-
-class Num(Token):
-    def __init__(self, value):
-        super().__init__(Tag.NUM)
-        self.value = value
-
-
-class Word(Token):
-    def __init__(self, tag, lexame):
-        super().__init__(tag)
-        self.lexeme = lexame
-
-
-class Tag:
-    NUM = 256
-    ID = 257
-    TRUE = 258
-    FALSE = 259
+from .exceptions import UnknownKeyword
+from .token import Token
+from .tag import Tag
+from .word import Word
+from .num import Num
+from .real import Real
 
 
 class Lexer:
@@ -31,7 +13,16 @@ class Lexer:
         self.peek = ''
         self.words = {
             'true': Word(Tag.TRUE, 'true'),
-            'false': Word(Tag.FALSE, 'false')
+            'false': Word(Tag.FALSE, 'false'),
+            'if': Word(Tag.IF, 'if'),
+            'else': Word(Tag.ELSE, 'else'),
+            'while': Word(Tag.WHILE, 'while'),
+            'do': Word(Tag.DO, 'do'),
+            'break': Word(Tag.DO, 'break'),
+            'int': Word(Tag.DO, 'break'),
+            'char': Word(Tag.DO, 'break'),
+            'float': Word(Tag.DO, 'break'),
+            'bool': Word(Tag.DO, 'break'),
         }
 
     def scan(self):
