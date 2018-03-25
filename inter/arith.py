@@ -9,7 +9,7 @@ class Arith(Op):
         self.expr2 = x2
         self.type_ = Type.max(self.expr1.type, self.expr2.type)
         if type is None:
-            self.error()
+            self.error('Type Error')
 
     def gen(self):
         return self.__class__(self.op, self.expr1.reduce(), self.expr2.reduce())

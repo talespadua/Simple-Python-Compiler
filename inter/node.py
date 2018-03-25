@@ -8,8 +8,10 @@ class Node():
     def __init__(self):
         self.lexline = Lexer.line
         
-    def error(self):
-        raise Exception("Error near line {}".format(self.lexline))
+    def error(self, error_str=''):
+        raise Exception(
+            "Error near line {}: {}".format(self.lexline, error_str)
+        )
 
     @classmethod
     def new_label(cls):

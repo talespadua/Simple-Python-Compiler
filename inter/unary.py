@@ -8,7 +8,7 @@ class Unary(Op):
         self.expr_ = ex
         self.type_ = Type.max(Type._int(), ex.type)
         if self.type is None:
-            self.error()
+            self.error('Type Error')
 
     def gen(self):
         return self.__class__(self.op, self.expr_.reduce())
