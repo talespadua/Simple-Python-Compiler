@@ -1,19 +1,15 @@
 import sys
-from .exceptions import UnknownKeyword
 from .token import Token
 from .tag import Tag
 from .word import Word
 from .num import Num
-from .real import Real
 from symbols.type import Type
-from symbols.array import Array
 
 
 class Lexer:
     line = 1
 
     def __init__(self):
-
         self.peek = ''
         self.words = {
             'true': Word._true(),

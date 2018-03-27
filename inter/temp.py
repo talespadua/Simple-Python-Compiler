@@ -1,7 +1,6 @@
 from .expr import Expr
 from lexer.word import Word
 
-
 class Temp(Expr):
     count = 0
 
