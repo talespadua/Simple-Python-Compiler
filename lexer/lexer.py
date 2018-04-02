@@ -12,17 +12,17 @@ class Lexer:
     def __init__(self):
         self.peek = ''
         self.words = {
-            'true': Word._true(),
-            'false': Word._false(),
+            'true': Word.true,
+            'false': Word.false,
             'if': Word(Tag.IF, 'if'),
             'else': Word(Tag.ELSE, 'else'),
             'while': Word(Tag.WHILE, 'while'),
             'do': Word(Tag.DO, 'do'),
             'break': Word(Tag.DO, 'break'),
-            'int': Type._int(),
-            'char': Type._char(),
-            'float': Type._float(),
-            'bool': Type._bool(),
+            'int': Type.int_,
+            'char': Type.char_,
+            'float': Type.float_,
+            'bool': Type.bool_,
         }
 
     def readch(self, c=None):
@@ -47,37 +47,37 @@ class Lexer:
 
         if self.peek == '&':
             if self.readch('&'):
-                return Word._and()
+                return Word.and_
             else:
                 return Token('&')
 
         if self.peek == '|':
             if self.readch('|'):
-                return Word._or()
+                return Word.or_
             else:
                 return Token('|')
 
         if self.peek == '=':
             if self.readch('='):
-                return Word._eq()
+                return Word.eq
             else:
                 return Token('=')
 
         if self.peek == '!':
             if self.readch('='):
-                return Word._ne()
+                return Word.ne
             else:
                 return Token('!')
 
         if self.peek == '<':
             if self.readch('='):
-                return Word._le()
+                return Word.le
             else:
                 return Token('<')
 
         if self.peek == '>':
             if self.readch('='):
-                return Word._ge()
+                return Word.ge
             else:
                 return Token('>')
 

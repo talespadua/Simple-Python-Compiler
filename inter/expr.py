@@ -2,10 +2,10 @@ from .node import Node
 
 
 class Expr(Node):
-    def __init__(self, token, type):
+    def __init__(self, token, type_p):
         super().__init__()
         self.op = token
-        self.type = type
+        self.type_p = type_p
 
     def gen(self):
         return self

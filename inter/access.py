@@ -2,6 +2,7 @@ from lexer.tag import Tag
 from lexer.word import Word
 from .op import Op
 
+
 class Access(Op):
 
     def __init__(self, a, i, p):
@@ -10,7 +11,7 @@ class Access(Op):
         self.index = i
 
     def gen(self):
-        return self.__class__(self.array, self.index.reduce(), type)
+        return self.__class__(self.array, self.index.reduce(), self.type_p)
 
     def jumping(self, t, f):
         self.emitjumps(self.reduce().__str__(), t, f)

@@ -1,5 +1,6 @@
 from .logical import Logical
 
+
 class Not(Logical):
     def __init__(self, token, x2):
         super().__init__(token, x2, x2)
