@@ -2,8 +2,11 @@ import sys
 from .exceptions import SyntaxException
 from lexer.lexer import Lexer
 from lexer.tag import Tag
+from lexer.word import Word
+from lexer.token import Token
 from symbols.env import Env
 from symbols.array import Array
+from symbols.type import Type
 from inter.id import Id
 from inter.stmt import Stmt
 from inter.seq import Seq
@@ -14,6 +17,14 @@ from inter.do import Do
 from inter.set import Set
 from inter.set_elem import SetElem
 from inter.or_expr import Or
+from inter.and_expr import And
+from inter.rel import Rel
+from inter.arith import Arith
+from inter.unary import Unary
+from inter.not_expr import Not
+from inter.constant import Constant
+from inter.access import Access
+
 
 class Parser:
 
@@ -167,25 +178,112 @@ class Parser:
         return x
 
     def join(self):
-        pass
+        x = self.equality()
+        while self.look.tag == Tag.AND:
+            tok = self.look
+            self.move()
+            x = And(tok, x, self.equality())
+        return x
 
     def equality(self):
-        pass
+        x = self.rel()
+        while self.look .tag == Tag.EQ or self.look.tag == Tag.NE:
+            tok = self.look
+            self.move()
+            x = Rel(tok, x, self.rel())
+        return x
 
     def rel(self):
-        pass
+        x = self.expr()
+        if (self.look.tag == '<' or self.look.tag == '>' or
+                self.look.tag == Tag.LE or self.look.tag == Tag.GE):
+            tok = self.look
+            self.move()
+            return Rel(tok, x, self.expr())
+        else:
+            return x
 
     def expr(self):
-        pass
+        x = self.term()
+        while self.look.tag == '+' or self.look.tag == '-':
+            tok = self.look
+            self.move()
+            x = Arith(tok, x, self.term())
+        return x
 
     def term(self):
-        pass
+        x = self.unary()
+        while self.look.tag == '*' or self.look.tag == '/':
+            tok = self.look
+            self.move()
+            x = Arith(tok, x, self.unary())
+        return x
 
     def unary(self):
-        pass
+        if self.look.tag == '-':
+            self.move()
+            return Unary(Word.minus, self.unary())
+        elif self.look.tag == '!=':
+            tok = self.look
+            self.move()
+            return Not(tok, self.unary())
+        return self.factor()
 
     def factor(self):
-        pass
+        x = None
+        if self.look.tag == '(':
+            self.move()
+            x = self.bool_()
+            self.match(')')
+            return x
+        elif self.look.tag == Tag.NUM:
+            x = Constant(token=self.look, type_p=Type.int_)
+            self.move()
+            return x
+        elif self.look.tag == Tag.REAL:
+            x = Constant(token=self.look, type_p=Type.float_)
+            self.move()
+            return x
+        elif self.look.tag == Tag.TRUE:
+            x = Constant.true
+            self.move()
+            return x
+        elif self.look.tag == Tag.FALSE:
+            x = Constant.false
+            self.move()
+            return x
+        elif self.look.tag == Tag.ID:
+            id_ = self.top.get(self.look)
+            if id_ is None:
+                self.error("{} undeclared".format(str(self.look)))
+            self.move()
+            if self.look.tag != '[':
+                return id_
+            return self.offset(id_)
+        else:
+            self.error("syntax error")
+            return x
 
-    def offset(self):
-        pass
+    def offset(self, a):
+        type_ = a.type_p
+        self.match('[')
+        i = self.bool_()
+        self.match(']')
+        type_ = Array(1, type_.word)
+        w = Constant(i=type_.width)
+        t1 = Arith(Token('*'), i, w)
+        loc = t1
+        while self.look.tag == '[':
+            self.match('[')
+            i = self.bool_()
+            self.match(']')
+            type_ = Array(1, type_.word)
+            w = Constant(i=type_.width)
+            t1 = Arith(Token('*'), i, w)
+            t2 = Arith(Token('+'), loc, t1)
+            loc = t2
+        return Access(a, loc, type_)
+
+
+
+
