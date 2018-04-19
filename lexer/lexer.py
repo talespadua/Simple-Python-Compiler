@@ -39,7 +39,7 @@ class Lexer:
     def scan(self):
         while True:
             self.readch()
-            if self.peek == '' or self.peek == '\t':
+            if self.peek == ' ' or self.peek == '\t':
                 continue
             elif self.peek == '\n':
                 Lexer.line += 1
@@ -98,7 +98,7 @@ class Lexer:
                 self.peek = self.file.read(1)
                 if not self.peek.isalpha():
                     break
-            w = self.words[s]
+            w = self.words.get(s)
             if w:
                 return w
             w = Word(Tag.ID, s)
