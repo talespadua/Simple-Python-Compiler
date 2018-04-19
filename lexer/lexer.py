@@ -9,7 +9,7 @@ from symbols.type import Type
 class Lexer:
     line = 1
 
-    def __init__(self):
+    def __init__(self, file):
         self.peek = ''
         self.words = {
             'true': Word.true,
@@ -24,10 +24,11 @@ class Lexer:
             'float': Type.float_,
             'bool': Type.bool_,
         }
+        self.file = file
 
     def readch(self, c=None):
         if c is None:
-            self.peek = sys.stdin.read(1)
+            self.peek = self.file.read(1)
             return
         self.readch()
         if self.peek != c:
@@ -85,7 +86,7 @@ class Lexer:
             v = 0
             while True:
                 v = 10*v + int(self.peek)
-                self.peek = sys.stdin.read(1)
+                self.peek = self.file.read(1)
                 if not self.peek.isdigit():
                     break
             return Num(v)
@@ -94,7 +95,7 @@ class Lexer:
             s = ''
             while True:
                 s += self.peek
-                self.peek = sys.stdin.read(1)
+                self.peek = self.file.read(1)
                 if not self.peek.isalpha():
                     break
             w = self.words[s]
