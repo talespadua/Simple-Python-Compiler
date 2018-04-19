@@ -1,6 +1,4 @@
-import sys
 from .exceptions import SyntaxException
-from lexer.lexer import Lexer
 from lexer.tag import Tag
 from lexer.word import Word
 from lexer.token import Token

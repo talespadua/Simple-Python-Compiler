@@ -1,11 +1,8 @@
 from parser.expression import Expression
 from parser.parser import Parser
-from parser.exceptions import EndOfExpressionException
 
 if __name__ == '__main__':
-    expression = Expression('1+2')
+    input = 'int a = 1+2;'
+    expression = Expression(input)
     parser = Parser(expression)
-    try:
-        parser.expr()
-    except EndOfExpressionException:
-        print("end of expression")
+    parser.expr()
