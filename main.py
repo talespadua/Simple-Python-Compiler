@@ -1,8 +1,11 @@
-from parser.expression import Expression
+from lexer.lexer import Lexer
 from parser.parser import Parser
+import sys
+
 
 if __name__ == '__main__':
-    input = 'int a = 1+2;'
-    expression = Expression(input)
-    parser = Parser(expression)
-    parser.expr()
+    file = sys.argv[1]
+    lex = Lexer()
+    parser = Parser(lex)
+    parser.program()
+    print('\n')
