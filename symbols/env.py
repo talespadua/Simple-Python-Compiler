@@ -1,7 +1,3 @@
-from .id import Id
-from .token import Token
-
-
 class Env:
 
     def __init__(self, n):
