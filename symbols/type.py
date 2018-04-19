@@ -1,16 +1,8 @@
-from lexer.word import Word, MetaWord
+from lexer.word import Word
 from lexer.tag import Tag
 
 
-class MetaType(MetaWord):
-    def __init__(cls, name, bases, attrs, **kwargs):
-        cls.int_ = cls('int', Tag.BASIC, 4)
-        cls.float_ = cls('float', Tag.BASIC, 8)
-        cls.char_ = cls('char', Tag.BASIC, 1)
-        cls.bool_ = cls('bool', Tag.BASIC, 1)
-
-
-class Type(Word, metaclass=MetaType):
+class Type(Word):
     def __init__(self, word, tag_id, w):
         super().__init__(word, tag_id)
         self.width = w
@@ -30,3 +22,9 @@ class Type(Word, metaclass=MetaType):
         elif p1 is cls.int_ or p2 is cls.int_:
             return cls.int_
         return cls.char_
+
+
+Type.int_ = Type('int', Tag.BASIC, 4)
+Type.float_ = Type('float', Tag.BASIC, 8)
+Type.char_ = Type('char', Tag.BASIC, 1)
+Type.bool_ = Type('bool', Tag.BASIC, 1)

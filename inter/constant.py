@@ -4,12 +4,7 @@ from symbols.type import Type
 from lexer.word import Word
 
 
-class MetaConstant(type):
-    def __init__(cls, name, bases, attrs, **kwargs):
-        cls.true = cls(Word.true, Type.bool_)
-        cls.false = cls(Word.false, Type.bool_)
-
-class Constant(Expr, metaclass=MetaConstant):
+class Constant(Expr):
     def __init__(self, token=None, type_p=None, i=None):
         if i:
             super().__init__(Num(i), Type.int_)
@@ -29,3 +24,6 @@ class Constant(Expr, metaclass=MetaConstant):
             self.emit('goto L{}'.format(t))
         elif self == self.__class__._false():
             self.emit('goto L{}'.format(f))
+
+Constant.true = Constant(Word.true, Type.bool_)
+Constant.false = Constant(Word.false, Type.bool_)
