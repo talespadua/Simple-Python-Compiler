@@ -103,7 +103,6 @@ class Parser:
         if self.look.tag == ';':
             self.move()
             return Stmt.null
-
         elif self.look.tag == Tag.IF:
             self.match(Tag.IF)
             self.match('(')
@@ -115,7 +114,6 @@ class Parser:
             self.match(Tag.ELSE)
             s2 = self.stmt()
             return Else(x, s1, s2)
-
         elif self.look.tag == Tag.WHILE:
             while_node = While()
             saved_stmt = Stmt.enclosing
@@ -127,7 +125,6 @@ class Parser:
             s1 = self.stmt()
             while_node.init(x, s1)
             Stmt.enclosing = saved_stmt
-
         elif self.look.tag == Tag.DO:
             donode = Do()
             saved_stmt = Stmt.enclosing
@@ -142,14 +139,11 @@ class Parser:
             donode.init(s1, x)
             Stmt.enclosing = saved_stmt
             return donode
-
         elif self.look.tag == Tag.BREAK:
             self.match(Tag.BREAK)
             self.match(';')
-
         elif self.look.tag == '{':
             return self.block()
-
         else:
             return self.assign()
 
