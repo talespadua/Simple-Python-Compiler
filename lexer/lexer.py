@@ -14,11 +14,11 @@ class Lexer:
         self.words = {
             'true': Word.true,
             'false': Word.false,
-            'if': Word(Tag.IF, 'if'),
-            'else': Word(Tag.ELSE, 'else'),
-            'while': Word(Tag.WHILE, 'while'),
-            'do': Word(Tag.DO, 'do'),
-            'break': Word(Tag.DO, 'break'),
+            'if': Word('if', Tag.IF),
+            'else': Word('else', Tag.ELSE),
+            'while': Word('while', Tag.WHILE),
+            'do': Word('do', Tag.DO),
+            'break': Word('break', Tag.DO),
             'int': Type.int_,
             'char': Type.char_,
             'float': Type.float_,
@@ -101,7 +101,7 @@ class Lexer:
             w = self.words.get(s)
             if w:
                 return w
-            w = Word(Tag.ID, s)
+            w = Word(s, Tag.ID)
             self.words[s] = w
             return w
         t = Token(self.peek)
