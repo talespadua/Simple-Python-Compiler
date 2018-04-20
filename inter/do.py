@@ -12,7 +12,7 @@ class Do(Stmt):
     def init(self, s, x):
         self.expr = x
         self.stmt = s
-        if self.expr.type_p is not Type._bool():
+        if self.expr.type_ is not Type.bool_:
             self.expr.error("Boolean requiered in do")
 
     def gen(self, b, a):

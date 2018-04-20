@@ -229,11 +229,11 @@ class Parser:
             self.match(')')
             return x
         elif self.look.tag == Tag.NUM:
-            x = Constant(token=self.look, type_p=Type.int_)
+            x = Constant(token=self.look, type_=Type.int_)
             self.move()
             return x
         elif self.look.tag == Tag.REAL:
-            x = Constant(token=self.look, type_p=Type.float_)
+            x = Constant(token=self.look, type_=Type.float_)
             self.move()
             return x
         elif self.look.tag == Tag.TRUE:
@@ -257,11 +257,11 @@ class Parser:
             return x
 
     def offset(self, a):
-        type_ = a.type_p
+        type_ = a.type_
         self.match('[')
         i = self.bool_()
         self.match(']')
-        type_ = Array(1, type_.word)
+        type_ = Array(1, type_.of)
         w = Constant(i=type_.width)
         t1 = Arith(Token('*'), i, w)
         loc = t1
@@ -269,7 +269,7 @@ class Parser:
             self.match('[')
             i = self.bool_()
             self.match(']')
-            type_ = Array(1, type_.word)
+            type_ = Array(1, type_.of)
             w = Constant(i=type_.width)
             t1 = Arith(Token('*'), i, w)
             t2 = Arith(Token('+'), loc, t1)

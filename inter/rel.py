@@ -12,7 +12,7 @@ class Rel(Logical):
         if p1 is Array or p2 is Array:
             return None
         elif p1 == p2:
-            return Type._bool()
+            return Type.bool_
         else:
             return None
 

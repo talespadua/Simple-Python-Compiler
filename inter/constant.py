@@ -5,11 +5,11 @@ from lexer.word import Word
 
 
 class Constant(Expr):
-    def __init__(self, token=None, type_p=None, i=None):
+    def __init__(self, token=None, type_=None, i=None):
         if i:
             super().__init__(Num(i), Type.int_)
         else:
-            super().__init__(token, type_p)
+            super().__init__(token, type_)
 
     @classmethod
     def _true(cls):

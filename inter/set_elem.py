@@ -11,7 +11,7 @@ class SetElem(Stmt):
         self.index = x.index
         self.expr = y
 
-        if self.check(x.type_p, self.expr.type_p) is None:
+        if self.check(x.type_, self.expr.type_) is None:
             self.error("type error")
 
     def check(self, p1, p2):

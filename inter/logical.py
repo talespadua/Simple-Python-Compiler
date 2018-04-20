@@ -8,7 +8,7 @@ class Logical(Expr):
         super().__init__(token, None)
         self.expr1 = x1
         self.expr2 = x2
-        self.type_ = self.check(self.expr1.type, self.expr2.type)
+        self.type_ = self.check(self.expr1.type_, self.expr2.type_)
         if self.type_ is None:
             self.error('Type Error')
 

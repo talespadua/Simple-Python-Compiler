@@ -5,10 +5,10 @@ from .stmt import Stmt
 class Set(Stmt):
 
     def __init__(self, i, x):
-        # super().__init__()
+        super().__init__()
         self.id = i
         self.expr = x
-        if self.check(self.id.type_p, self.expr.type_p) is None:
+        if self.check(self.id.type_, self.expr.type_) is None:
             self.error("type error")
 
     def check(self, p1, p2):

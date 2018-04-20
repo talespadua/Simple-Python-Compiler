@@ -9,7 +9,7 @@ class Else(Stmt):
         self.expr = x
         self.stmt1 = s1
         self.stmt2 = s2
-        if self.expr.type_p is not Type._bool():
+        if self.expr.type_ is not Type.bool_:
             self.expr.error("boolean required in if")
 
     def gen(self, b, a):

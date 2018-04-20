@@ -7,7 +7,7 @@ class Arith(Op):
         super().__init__(token, None)
         self.expr1 = x1
         self.expr2 = x2
-        self.type_ = Type.max(self.expr1.type_p, self.expr2.type_p)
+        self.type_ = Type.max(self.expr1.type_, self.expr2.type_)
         if type is None:
             self.error('Type Error')
 
