@@ -38,11 +38,11 @@ class Lexer:
 
     def scan(self):
         while True:
-            self.readch()
-            if self.peek == ' ' or self.peek == '\t':
-                continue
+            if self.peek == '' or self.peek == ' ' or self.peek == '\t':
+                self.readch()
             elif self.peek == '\n':
                 Lexer.line += 1
+                self.readch()
             else:
                 break
 
