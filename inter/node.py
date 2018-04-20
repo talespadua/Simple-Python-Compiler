@@ -1,7 +1,7 @@
 from lexer.lexer import Lexer
 
 
-class Node():
+class Node:
 
     labels = 0
 
@@ -10,7 +10,7 @@ class Node():
         
     def error(self, error_str=''):
         raise Exception(
-            "Error near line {}: {}".format(self.lexline, error_str)
+            "Error near line {}: {}".format(Lexer.line, error_str)
         )
 
     @classmethod
