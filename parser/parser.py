@@ -77,7 +77,7 @@ class Parser:
     def get_type(self):
         p = self.look
         self.match(Tag.BASIC)
-        if self.look.tag != '[ ':
+        if self.look.tag != '[':
             return p
         else:
             return self.dims(p)
