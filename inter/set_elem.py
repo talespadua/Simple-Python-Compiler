@@ -6,7 +6,7 @@ from .stmt import Stmt
 class SetElem(Stmt):
 
     def __init__(self, x, y):
-        super().__init__()
+        # super().__init__()
         self.array = x.array
         self.index = x.index
         self.expr = y

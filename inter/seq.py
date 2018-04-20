@@ -4,7 +4,7 @@ from .stmt import Stmt
 class Seq(Stmt):
 
     def __init__(self, s1, s2):
-        super().__init__()
+        # super().__init__()
         self.stmt1 = s1
         self.stmt2 = s2
 

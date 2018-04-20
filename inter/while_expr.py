@@ -5,7 +5,7 @@ from .stmt import Stmt
 class While(Stmt):
 
     def __init__(self):
-        super().__init__()
+        # super().__init__()
         self.expr = None
         self.stmt = None
 

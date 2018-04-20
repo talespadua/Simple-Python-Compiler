@@ -5,7 +5,7 @@ from symbols.type import Type
 class Else(Stmt):
 
     def __init__(self, x, s1, s2):
-        super().__init__()
+        # super().__init__()
         self.expr = x
         self.stmt1 = s1
         self.stmt2 = s2
