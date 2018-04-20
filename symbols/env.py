@@ -11,7 +11,7 @@ class Env:
         e = self
         while e is not None:
             e = e.prev
-            found = e.table.get(w)
+            found = dict(e.table)[w]
             if found is not None:
                 return found
         return None
