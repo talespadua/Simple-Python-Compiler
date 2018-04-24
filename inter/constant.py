@@ -11,19 +11,14 @@ class Constant(Expr):
         else:
             super().__init__(token, type_)
 
-    @classmethod
-    def _true(cls):
-        return cls(Word._true(), Type._bool())
+Constant.true = Constant(token=Word.true, type_=Type.bool_)
+Constant.false = Constant(token=Word.false, type_=Type.bool_)
 
-    @classmethod
-    def _false(cls):
-        return cls(Word._false(), Type._bool())
 
-    def jumping(self, t, f):
-        if self == self.__class__._true():
-            self.emit('goto L{}'.format(t))
-        elif self == self.__class__._false():
-            self.emit('goto L{}'.format(f))
+def jumping(contant, t, f):
+    if contant == Constant.true:
+        contant.emit('goto L{}'.format(t))
+    elif contant == Constant.false:
+        contant.emit('goto L{}'.format(f))
 
-Constant.true = Constant(Word.true, Type.bool_)
-Constant.false = Constant(Word.false, Type.bool_)
+Constant.jumping = jumping

@@ -92,7 +92,7 @@ class Parser:
         return Array(tok.value, p)
 
     def stmts(self):
-        if self.look.tag == '{':
+        if self.look.tag == '}':
             return Stmt.null
         else:
             return Seq(self.stmt(), self.stmts)

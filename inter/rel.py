@@ -7,9 +7,8 @@ class Rel(Logical):
     def __init__(self, token, x1, x2):
         super().__init__(token, x1, x2)
 
-    @staticmethod
-    def check(p1, p2):
-        if p1 is Array or p2 is Array:
+    def check(self, p1, p2):
+        if isinstance(p1, Array) or isinstance(p2, Array):
             return None
         elif p1 == p2:
             return Type.bool_

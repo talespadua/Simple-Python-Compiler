@@ -12,7 +12,7 @@ class While(Stmt):
     def init(self, x, s):
         self.expr = x
         self.stmt = s
-        if self.expr is not Type._bool():
+        if self.expr is not Type.bool_:
             self.expr.error("Boolean required in while")
 
     def gen(self, b, a):

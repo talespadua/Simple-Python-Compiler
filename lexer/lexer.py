@@ -4,13 +4,20 @@ from .tag import Tag
 from .word import Word
 from .num import Num
 from symbols.type import Type
+from parser.exceptions import EndOfExpressionException
 
 
 class Lexer:
     line = 1
 
+    def read_char(self):
+        peek = self.file.read(1)
+        if len(peek) < 1:
+            raise EndOfExpressionException()
+        return peek
+
     def __init__(self, file):
-        self.peek = ''
+        self.peek = None
         self.words = {
             'true': Word.true,
             'false': Word.false,
@@ -28,21 +35,27 @@ class Lexer:
 
     def readch(self, c=None):
         if c is None:
-            self.peek = self.file.read(1)
+            try:
+                self.peek = self.read_char()
+            except EndOfExpressionException:
+                exit()
             return
         self.readch()
         if self.peek != c:
             return False
-        self.peek = ''
+        self.peek = None
         return True
 
     def scan(self):
         while True:
-            if self.peek == '' or self.peek == ' ' or self.peek == '\t':
+            if self.peek is None or self.peek == ' ' or self.peek == '\t':
                 self.readch()
             elif self.peek == '\n':
                 Lexer.line += 1
                 self.readch()
+            elif self.peek is None:
+                self.peek = ''
+                break
             else:
                 break
 
@@ -86,7 +99,10 @@ class Lexer:
             v = 0
             while True:
                 v = 10*v + int(self.peek)
-                self.peek = self.file.read(1)
+                try:
+                    self.peek = self.read_char()
+                except EndOfExpressionException:
+                    exit()
                 if not self.peek.isdigit():
                     break
             return Num(v)
@@ -95,7 +111,10 @@ class Lexer:
             s = ''
             while True:
                 s += self.peek
-                self.peek = self.file.read(1)
+                try:
+                    self.peek = self.read_char()
+                except EndOfExpressionException:
+                    exit()
                 if not self.peek.isalpha():
                     break
             w = self.words.get(s)

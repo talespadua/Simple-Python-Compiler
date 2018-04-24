@@ -12,10 +12,9 @@ class Logical(Expr):
         if self.type_ is None:
             self.error('Type Error')
 
-    @staticmethod
-    def check(p1, p2):
-        if p1 == Type._bool() and p2 == Type._bool():
-            return Type._bool()
+    def check(self, p1, p2):
+        if p1 == Type.bool_ and p2 == Type.bool_:
+            return Type.bool_
         else:
             return None
 
