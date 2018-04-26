@@ -8,6 +8,6 @@ class Op(Expr):
 
     def reduce(self):
         x = self.gen()
-        t = Temp()
+        t = Temp(self.type_)
         self.emit('{} = {}'.format(str(t), str(x)))
         return t

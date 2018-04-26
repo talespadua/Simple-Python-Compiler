@@ -25,7 +25,7 @@ class Lexer:
             'else': Word('else', Tag.ELSE),
             'while': Word('while', Tag.WHILE),
             'do': Word('do', Tag.DO),
-            'break': Word('break', Tag.DO),
+            'break': Word('break', Tag.BREAK),
             'int': Type.int_,
             'char': Type.char_,
             'float': Type.float_,
@@ -38,7 +38,7 @@ class Lexer:
             try:
                 self.peek = self.read_char()
             except EndOfExpressionException:
-                exit()
+                print("EOF")
             return
         self.readch()
         if self.peek != c:
@@ -48,14 +48,11 @@ class Lexer:
 
     def scan(self):
         while True:
-            if self.peek is None or self.peek == ' ' or self.peek == '\t':
+            if self.peek is None or self.peek == ' ' or self.peek == '\t' or self.peek == '':
                 self.readch()
             elif self.peek == '\n':
                 Lexer.line += 1
                 self.readch()
-            elif self.peek is None:
-                self.peek = ''
-                break
             else:
                 break
 
@@ -102,7 +99,8 @@ class Lexer:
                 try:
                     self.peek = self.read_char()
                 except EndOfExpressionException:
-                    exit()
+                    print("EOF")
+                    return
                 if not self.peek.isdigit():
                     break
             return Num(v)
@@ -114,7 +112,8 @@ class Lexer:
                 try:
                     self.peek = self.read_char()
                 except EndOfExpressionException:
-                    exit()
+                    print("EOF")
+                    return
                 if not self.peek.isalpha():
                     break
             w = self.words.get(s)

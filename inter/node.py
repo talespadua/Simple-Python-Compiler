@@ -13,15 +13,12 @@ class Node:
             "Error near line {}: {}".format(Lexer.line, error_str)
         )
 
-    @classmethod
-    def new_label(cls):
-        cls.labels += 1
-        return cls.labels
+    def new_label(self):
+        self.labels += 1
+        return self.labels
 
-    @staticmethod
-    def emit_label(i):
+    def emit_label(self, i):
         print('L{}:'.format(str(i)))
 
-    @staticmethod
-    def emit(s):
+    def emit(self, s):
         print('\t{}'.format(s))

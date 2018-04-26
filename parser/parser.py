@@ -36,6 +36,8 @@ class Parser:
 
     def move(self):
         self.look = self.lex.scan()
+        if not self.look:
+            return False
 
     def error(self, s):
         raise SyntaxException("near line {}: {}".format(self.lex.line, s))
@@ -95,7 +97,7 @@ class Parser:
         if self.look.tag == '}':
             return Stmt.null
         else:
-            return Seq(self.stmt(), self.stmts)
+            return Seq(self.stmt(), self.stmts())
 
     def stmt(self):
         if self.look.tag == ';':

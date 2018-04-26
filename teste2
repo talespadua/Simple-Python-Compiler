@@ -1,3 +1,8 @@
 {
     int i; int j; float v; float x; float[100] a;
+    while(true) {
+        i = 1;
+        j = 3;
+        if(1 < j) break;
+    }
 }

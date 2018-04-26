@@ -3,7 +3,7 @@ from .node import Node
 
 class Expr(Node):
     def __init__(self, token, type_):
-        # super().__init__()
+        super().__init__()
         self.op = token
         self.type_ = type_
 
