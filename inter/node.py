@@ -12,10 +12,10 @@ class Node:
         raise Exception(
             "Error near line {}: {}".format(Lexer.line, error_str)
         )
-
+    
     def new_label(self):
-        self.labels += 1
-        return self.labels
+        self.__class__.labels = self.__class__.labels + 1
+        return self.__class__.labels
 
     def emit_label(self, i):
         print('L{}:'.format(str(i)), end='')

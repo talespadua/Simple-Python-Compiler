@@ -48,12 +48,12 @@ class Parser:
             self.error("syntax error")
 
     def program(self):
-        self.s = self.block()
-        begin = self.s.new_label()
-        after = self.s.new_label()
-        self.s.emit_label(begin)
-        self.s.gen(begin, after)
-        self.s.emit_label(after)
+        s = self.block()
+        begin = s.new_label()
+        after = s.new_label()
+        s.emit_label(begin)
+        s.gen(begin, after)
+        s.emit_label(after)
 
     def block(self):
         self.match('{')

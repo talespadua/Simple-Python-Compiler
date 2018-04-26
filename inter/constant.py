@@ -15,10 +15,10 @@ Constant.true = Constant(token=Word.true, type_=Type.bool_)
 Constant.false = Constant(token=Word.false, type_=Type.bool_)
 
 
-def jumping(contant, t, f):
-    if contant == Constant.true:
-        contant.emit('goto L{}'.format(t))
-    elif contant == Constant.false:
-        contant.emit('goto L{}'.format(f))
+def jumping(constant, t, f):
+    if constant == Constant.true and t != 0:
+        constant.emit('goto L{}'.format(t))
+    elif constant == Constant.false and f != 0:
+        constant.emit('goto L{}'.format(f))
 
 Constant.jumping = jumping
