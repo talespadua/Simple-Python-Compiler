@@ -27,4 +27,4 @@ class SetElem(Stmt):
     def gen(self, b, a):
         s1 = str(self.index.reduce())
         s2 = str(self.expr.reduce())
-        self.emit("{} [{}] = {}".format(str(self.array, s1, s2)))
+        self.emit("{} [{}] = {}".format(str(self.array), s1, s2))

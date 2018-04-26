@@ -18,7 +18,7 @@ class Node:
         return self.labels
 
     def emit_label(self, i):
-        print('L{}:'.format(str(i)))
+        print('L{}:'.format(str(i)), end='')
 
     def emit(self, s):
         print('\t{}'.format(s))

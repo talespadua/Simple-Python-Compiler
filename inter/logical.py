@@ -25,9 +25,9 @@ class Logical(Expr):
         self.jumping(0, f)
         self.emit('{} = true'.format(str(temp)))
         self.emit('goto L{}'.format(str(a)))
-        Logical.emit_label(f)
+        self.emit_label(f)
         self.emit('{} = false'.format(str(temp)))
-        Logical.emit_label(str(a))
+        self.emit_label(str(a))
         return temp
 
     def __str__(self):

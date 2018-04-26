@@ -268,7 +268,7 @@ class Parser:
         self.match('[')
         i = self.bool_()
         self.match(']')
-        type_ = Array(1, type_.of)
+        type_ = type_.of
         w = Constant(i=type_.width)
         t1 = Arith(Token('*'), i, w)
         loc = t1
@@ -276,7 +276,7 @@ class Parser:
             self.match('[')
             i = self.bool_()
             self.match(']')
-            type_ = Array(1, type_.of)
+            type_ = type_.of
             w = Constant(i=type_.width)
             t1 = Arith(Token('*'), i, w)
             t2 = Arith(Token('+'), loc, t1)
