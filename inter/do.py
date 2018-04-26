@@ -17,7 +17,7 @@ class Do(Stmt):
 
     def gen(self, b, a):
         self.after = a
-        label = self.new_label()
+        label = Stmt.new_label()
         self.stmt.gen(b, label)
         self.emit_label(label)
         self.expr.jumping(b, 0)

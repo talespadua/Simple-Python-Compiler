@@ -49,8 +49,8 @@ class Parser:
 
     def program(self):
         s = self.block()
-        begin = s.new_label()
-        after = s.new_label()
+        begin = Stmt.new_label()
+        after = Stmt.new_label()
         s.emit_label(begin)
         s.gen(begin, after)
         s.emit_label(after)

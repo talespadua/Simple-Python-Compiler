@@ -14,7 +14,7 @@ class Seq(Stmt):
         elif self.stmt2 is Stmt.null:
             self.stmt1.gen(b, a)
         else:
-            label = self.new_label()
+            label = Stmt.new_label()
             self.stmt1.gen(b, label)
             self.emit_label(label)
             self.stmt2.gen(label, a)

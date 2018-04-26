@@ -12,7 +12,7 @@ class If(Stmt):
             self.expr.error("boolean required in if")
 
     def gen(self, b, a):
-        label = self.new_label()
+        label = Stmt.new_label()
         self.expr.jumping(0, a)
         self.emit_label(label)
         self.stmt.gen(label, a)

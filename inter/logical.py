@@ -19,8 +19,8 @@ class Logical(Expr):
             return None
 
     def gen(self):
-        f = self.new_label()
-        a = self.new_label()
+        f = Expr.new_label()
+        a = Expr.new_label()
         temp = Temp(self.type_)
         self.jumping(0, f)
         self.emit('{} = true'.format(str(temp)))
