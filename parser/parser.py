@@ -1,4 +1,4 @@
-from .exceptions import SyntaxException
+from .exceptions import SyntaxException, EndOfExpressionException
 from lexer.tag import Tag
 from lexer.word import Word
 from lexer.token import Token
@@ -22,6 +22,7 @@ from inter.unary import Unary
 from inter.not_expr import Not
 from inter.constant import Constant
 from inter.access import Access
+from inter.break_expr import Break
 
 
 class Parser:
@@ -36,8 +37,6 @@ class Parser:
 
     def move(self):
         self.look = self.lex.scan()
-        if not self.look:
-            return False
 
     def error(self, s):
         raise SyntaxException("near line {}: {}".format(self.lex.line, s))
@@ -62,7 +61,10 @@ class Parser:
         self.top = Env(self.top)
         self.decls()
         s = self.stmts()
-        self.match('}')
+        try:
+            self.match('}')
+        except EndOfExpressionException:
+            pass
         self.top = saved_env
         return s
 
@@ -97,7 +99,8 @@ class Parser:
         if self.look.tag == '}':
             return Stmt.null
         else:
-            return Seq(self.stmt(), self.stmts())
+            teste = self.stmt()
+            return Seq(teste, self.stmts())
 
     def stmt(self):
         if self.look.tag == ';':
@@ -125,6 +128,7 @@ class Parser:
             s1 = self.stmt()
             while_node.init(x, s1)
             Stmt.enclosing = saved_stmt
+            return while_node
         elif self.look.tag == Tag.DO:
             donode = Do()
             saved_stmt = Stmt.enclosing
@@ -142,6 +146,7 @@ class Parser:
         elif self.look.tag == Tag.BREAK:
             self.match(Tag.BREAK)
             self.match(';')
+            return Break()
         elif self.look.tag == '{':
             return self.block()
         else:

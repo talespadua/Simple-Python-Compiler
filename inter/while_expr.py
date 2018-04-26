@@ -18,7 +18,7 @@ class While(Stmt):
     def gen(self, b, a):
         self.after = a
         self.expr.jumping(0, a)
-        label = While.new_label()
+        label = self.new_label()
         self.emit_label(label)
         self.stmt.gen(label, b)
         self.emit("goto L{}".format(b))

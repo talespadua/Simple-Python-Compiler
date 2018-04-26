@@ -1,4 +1,3 @@
-import sys
 from .token import Token
 from .tag import Tag
 from .word import Word
@@ -39,6 +38,7 @@ class Lexer:
                 self.peek = self.read_char()
             except EndOfExpressionException:
                 print("EOF")
+                raise EndOfExpressionException
             return
         self.readch()
         if self.peek != c:
@@ -100,7 +100,7 @@ class Lexer:
                     self.peek = self.read_char()
                 except EndOfExpressionException:
                     print("EOF")
-                    return
+                    exit()
                 if not self.peek.isdigit():
                     break
             return Num(v)
@@ -113,7 +113,7 @@ class Lexer:
                     self.peek = self.read_char()
                 except EndOfExpressionException:
                     print("EOF")
-                    return
+                    exit()
                 if not self.peek.isalpha():
                     break
             w = self.words.get(s)

@@ -11,8 +11,10 @@ class Seq(Stmt):
     def gen(self, b, a):
         if self.stmt1 is Stmt.null:
             self.stmt2.gen(b, a)
+        elif self.stmt2 is Stmt.null:
+            self.stmt1.gen(b, a)
         else:
-            label = Seq.new_label()
+            label = self.new_label()
             self.stmt1.gen(b, label)
             self.emit_label(label)
             self.stmt2.gen(label, a)

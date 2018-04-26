@@ -11,4 +11,5 @@ if __name__ == '__main__':
         lex = Lexer(f)
         parser = Parser(lex)
         parser.program()
+
     print('\n')
