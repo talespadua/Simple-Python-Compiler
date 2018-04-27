@@ -8,27 +8,26 @@ class Logical(Expr):
         super().__init__(token, None)
         self.expr1 = x1
         self.expr2 = x2
-        self.type_ = self.check(self.expr1.type, self.expr2.type)
+        self.type_ = self.check(self.expr1.type_, self.expr2.type_)
         if self.type_ is None:
             self.error('Type Error')
 
-    @staticmethod
-    def check(p1, p2):
-        if p1 == Type._bool() and p2 == Type._bool():
-            return Type._bool()
+    def check(self, p1, p2):
+        if p1 == Type.bool_ and p2 == Type.bool_:
+            return Type.bool_
         else:
             return None
 
     def gen(self):
-        f = self.new_label()
-        a = self.new_label()
+        f = Expr.new_label()
+        a = Expr.new_label()
         temp = Temp(self.type_)
         self.jumping(0, f)
         self.emit('{} = true'.format(str(temp)))
         self.emit('goto L{}'.format(str(a)))
-        Logical.emit_label(f)
+        self.emit_label(f)
         self.emit('{} = false'.format(str(temp)))
-        Logical.emit_label(str(a))
+        self.emit_label(str(a))
         return temp
 
     def __str__(self):

@@ -1,4 +1,4 @@
-from .exceptions import SyntaxException
+from .exceptions import SyntaxException, EndOfExpressionException
 from lexer.tag import Tag
 from lexer.word import Word
 from lexer.token import Token
@@ -22,6 +22,7 @@ from inter.unary import Unary
 from inter.not_expr import Not
 from inter.constant import Constant
 from inter.access import Access
+from inter.break_expr import Break
 
 
 class Parser:
@@ -47,12 +48,12 @@ class Parser:
             self.error("syntax error")
 
     def program(self):
-        self.s = self.block()
-        begin = self.s.new_label()
-        after = self.s.new_label()
-        self.s.emit_label(begin)
-        self.s.gen(begin, after)
-        self.s.emit_label(after)
+        s = self.block()
+        begin = Stmt.new_label()
+        after = Stmt.new_label()
+        s.emit_label(begin)
+        s.gen(begin, after)
+        s.emit_label(after)
 
     def block(self):
         self.match('{')
@@ -60,7 +61,10 @@ class Parser:
         self.top = Env(self.top)
         self.decls()
         s = self.stmts()
-        self.match('}')
+        try:
+            self.match('}')
+        except EndOfExpressionException:
+            pass
         self.top = saved_env
         return s
 
@@ -77,7 +81,7 @@ class Parser:
     def get_type(self):
         p = self.look
         self.match(Tag.BASIC)
-        if self.look.tag != '[ ':
+        if self.look.tag != '[':
             return p
         else:
             return self.dims(p)
@@ -92,10 +96,11 @@ class Parser:
         return Array(tok.value, p)
 
     def stmts(self):
-        if self.look.tag == '{':
+        if self.look.tag == '}':
             return Stmt.null
         else:
-            return Seq(self.stmt(), self.stmts)
+            teste = self.stmt()
+            return Seq(teste, self.stmts())
 
     def stmt(self):
         if self.look.tag == ';':
@@ -123,6 +128,7 @@ class Parser:
             s1 = self.stmt()
             while_node.init(x, s1)
             Stmt.enclosing = saved_stmt
+            return while_node
         elif self.look.tag == Tag.DO:
             donode = Do()
             saved_stmt = Stmt.enclosing
@@ -140,6 +146,7 @@ class Parser:
         elif self.look.tag == Tag.BREAK:
             self.match(Tag.BREAK)
             self.match(';')
+            return Break()
         elif self.look.tag == '{':
             return self.block()
         else:
@@ -229,11 +236,11 @@ class Parser:
             self.match(')')
             return x
         elif self.look.tag == Tag.NUM:
-            x = Constant(token=self.look, type_p=Type.int_)
+            x = Constant(token=self.look, type_=Type.int_)
             self.move()
             return x
         elif self.look.tag == Tag.REAL:
-            x = Constant(token=self.look, type_p=Type.float_)
+            x = Constant(token=self.look, type_=Type.float_)
             self.move()
             return x
         elif self.look.tag == Tag.TRUE:
@@ -257,11 +264,11 @@ class Parser:
             return x
 
     def offset(self, a):
-        type_ = a.type_p
+        type_ = a.type_
         self.match('[')
         i = self.bool_()
         self.match(']')
-        type_ = Array(1, type_.word)
+        type_ = type_.of
         w = Constant(i=type_.width)
         t1 = Arith(Token('*'), i, w)
         loc = t1
@@ -269,7 +276,7 @@ class Parser:
             self.match('[')
             i = self.bool_()
             self.match(']')
-            type_ = Array(1, type_.word)
+            type_ = type_.of
             w = Constant(i=type_.width)
             t1 = Arith(Token('*'), i, w)
             t2 = Arith(Token('+'), loc, t1)

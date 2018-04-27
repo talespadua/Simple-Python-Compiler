@@ -6,12 +6,12 @@ from .stmt import Stmt
 class SetElem(Stmt):
 
     def __init__(self, x, y):
-        super().__init__()
+        # super().__init__()
         self.array = x.array
         self.index = x.index
         self.expr = y
 
-        if self.check(x.type_p, self.expr.type_p) is None:
+        if self.check(x.type_, self.expr.type_) is None:
             self.error("type error")
 
     def check(self, p1, p2):
@@ -27,4 +27,4 @@ class SetElem(Stmt):
     def gen(self, b, a):
         s1 = str(self.index.reduce())
         s2 = str(self.expr.reduce())
-        self.emit("{} [{}] = {}".format(str(self.array, s1, s2)))
+        self.emit("{} [{}] = {}".format(str(self.array), s1, s2))

@@ -1,11 +1,12 @@
 from .expr import Expr
 from lexer.word import Word
 
+
 class Temp(Expr):
     count = 0
 
-    def __init__(self, type_p):
-        super().__init__(Word.temp(), type_p)
+    def __init__(self, type_):
+        super().__init__(Word.temp, type_)
         Temp.count += 1
         self.number = Temp.count
 

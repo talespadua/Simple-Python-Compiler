@@ -9,8 +9,8 @@ class And(Logical):
         if f != 0:
             label = f
         else:
-            label = self.__class__.new_label()
+            label = Logical.new_label()
         self.expr1.jumping(0, label)
         self.expr2.jumping(t, f)
         if f == 0:
-            Logical.emit_label(label)
+            self.emit_label(label)

@@ -9,8 +9,8 @@ class Or(Logical):
         if t != 0:
             label = t
         else:
-            label = self.__class__.new_label()
+            label = self.new_label()
         self.expr1.jumping(label, 0)
         self.expr2.jumping(t, f)
         if t == 0:
-            Logical.emit_label(label)
+            self.emit_label(label)

@@ -3,11 +3,11 @@ from .temp import Temp
 
 
 class Op(Expr):
-    def __init__(self, token, type_p):
-        super().__init__(token, type_p)
+    def __init__(self, token, type_):
+        super().__init__(token, type_)
 
     def reduce(self):
         x = self.gen()
-        t = Temp()
+        t = Temp(self.type_)
         self.emit('{} = {}'.format(str(t), str(x)))
         return t

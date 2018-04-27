@@ -4,28 +4,21 @@ from symbols.type import Type
 from lexer.word import Word
 
 
-class MetaConstant(type):
-    def __init__(cls, name, bases, attrs, **kwargs):
-        cls.true = cls(Word.true, Type.bool_)
-        cls.false = cls(Word.false, Type.bool_)
-
-class Constant(Expr, metaclass=MetaConstant):
-    def __init__(self, token=None, type_p=None, i=None):
+class Constant(Expr):
+    def __init__(self, token=None, type_=None, i=None):
         if i:
             super().__init__(Num(i), Type.int_)
         else:
-            super().__init__(token, type_p)
+            super().__init__(token, type_)
 
-    @classmethod
-    def _true(cls):
-        return cls(Word._true(), Type._bool())
+Constant.true = Constant(token=Word.true, type_=Type.bool_)
+Constant.false = Constant(token=Word.false, type_=Type.bool_)
 
-    @classmethod
-    def _false(cls):
-        return cls(Word._false(), Type._bool())
 
-    def jumping(self, t, f):
-        if self == self.__class__._true():
-            self.emit('goto L{}'.format(t))
-        elif self == self.__class__._false():
-            self.emit('goto L{}'.format(f))
+def jumping(constant, t, f):
+    if constant == Constant.true and t != 0:
+        constant.emit('goto L{}'.format(t))
+    elif constant == Constant.false and f != 0:
+        constant.emit('goto L{}'.format(f))
+
+Constant.jumping = jumping

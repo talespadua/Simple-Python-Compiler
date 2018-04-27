@@ -1,6 +1,6 @@
 class EndOfExpressionException(Exception):
-    print('Expression has ended')
+    pass
 
 
 class SyntaxException(Exception):
-    print('Syntax Error')
+    pass

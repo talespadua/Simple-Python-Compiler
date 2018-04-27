@@ -11,7 +11,7 @@ class Access(Op):
         self.index = i
 
     def gen(self):
-        return self.__class__(self.array, self.index.reduce(), self.type_p)
+        return self.__class__(self.array, self.index.reduce(), self.type_)
 
     def jumping(self, t, f):
         self.emitjumps(self.reduce().__str__(), t, f)
